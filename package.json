@@ -1,20 +1,25 @@
 {
   "name": "serverless-qrcode-hub",
   "version": "1.0.0",
-  "private": true,
+  "description": "QR Code Hub with Express and SQLite",
+  "main": "app.js",
   "scripts": {
-    "dev": "echo 'Cron triggered at http://localhost:8787/__scheduled?cron=*+*+*+*+*' && wrangler dev --ip 0.0.0.0 --env dev --test-scheduled",
-    "deploy": "wrangler deploy"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "wrangler": "^4.0.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "core-js-pure",
-      "esbuild",
-      "sharp",
-      "workerd"
-    ]
-  }
+  "private": true
 }
