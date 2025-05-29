@@ -422,6 +422,14 @@
                                 <span class="label-text">有效日期</span>
                             </label>
                             <input type="date" id="newExpiry" class="input input-bordered w-full">
+                            <!-- 增加快捷设置过期时间，7天，1个月，3个月，6个月，1年 -->
+                            <div class="flex gap-2 mt-2">
+                                <button class="btn btn-sm btn-primary" onclick="setExpiry('7')">7天</button>
+                                <button class="btn btn-sm btn-primary" onclick="setExpiry('30')">1个月</button>
+                                <button class="btn btn-sm btn-primary" onclick="setExpiry('90')">3个月</button>
+                                <button class="btn btn-sm btn-primary" onclick="setExpiry('180')">6个月</button>
+                                <button class="btn btn-sm btn-primary" onclick="setExpiry('365')">1年</button>
+                            </div>
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="label cursor-pointer justify-start gap-2">
@@ -571,6 +579,35 @@
         ];
     </script>
     <script>
+        function setExpiry(days) {
+            const expiryInput = document.getElementById('newExpiry'); // Corrected ID
+            if (!expiryInput) {
+                console.error('Expiry date input field (newExpiry) not found!');
+                return;
+            }
+
+            if (days === null || days === '' || days === '0' || days === 0) {
+                expiryInput.value = ''; // 清空日期
+                return;
+            }
+
+            const numDays = parseInt(days, 10);
+            if (isNaN(numDays)) {
+                console.error('Invalid number of days for expiry:', days);
+                return;
+            }
+
+            const today = new Date();
+            const expiryDate = new Date(today.setDate(today.getDate() + numDays));
+
+            // 格式化日期为 YYYY-MM-DD，这是 <input type="date"> 需要的格式
+            const year = expiryDate.getFullYear();
+            const month = ('0' + (expiryDate.getMonth() + 1)).slice(-2); // 月份是从0开始的
+            const day = ('0' + expiryDate.getDate()).slice(-2);
+
+            expiryInput.value = `${year}-${month}-${day}`;
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // 添加初始认证检查
             checkAuth().then(isAuthenticated => {
